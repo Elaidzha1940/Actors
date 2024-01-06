@@ -38,6 +38,10 @@ actor MyActorDataManager {
         print(Thread.current)
         return self.data.randomElement()
     }
+    
+    nonisolated func getSaveData() -> String {
+        return "New Data"
+    }
 }
 
 struct HomeView: View {
@@ -52,6 +56,13 @@ struct HomeView: View {
             
             Text(text)
                 .font(.system(size: 20, weight: .bold, design: .rounded))
+                .onAppear {
+                    let newString = manager.getSaveData()
+                    
+                    Task {
+                       let newString = await manager.getSaveData()
+                    }
+                }
         }
         .onReceive(timer, perform: { _ in
             Task {
