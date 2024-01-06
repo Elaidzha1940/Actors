@@ -56,7 +56,14 @@ actor MyActorDataManager {
 
 ````````````ruby
 
+@globalActor struct MyGlobalActor {
+    static var shared = MyNewDataManager()
+}
 
+@MyGlobalActor
+    func getData() {
+//
+}
 
 ````````````
 
