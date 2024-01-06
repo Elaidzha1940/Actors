@@ -2,6 +2,7 @@ Actors.
 =======
 
 How to solve the problem without Actors:
+----------------------------------------
 ````````ruby
 
 class MyDataManager {
@@ -20,5 +21,13 @@ class MyDataManager {
         }
     }
 }
+
+````````
+
+How to solve the problem with Actors:
+-------------------------------------
+
+````````ruby
+
 
 ````````
