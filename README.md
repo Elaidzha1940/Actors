@@ -43,4 +43,10 @@ actor MyActorDataManager {
     }
 }
 
+/*
+  nonisolated func getSaveData() -> String {
+        return "New Data"
+    }
+*/
+
 ````````
