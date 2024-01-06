@@ -50,3 +50,14 @@ actor MyActorDataManager {
 */
 
 ````````
+
+@globalActor:
+-------------
+
+````````````ruby
+
+
+
+````````````
+
+
