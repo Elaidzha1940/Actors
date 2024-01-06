@@ -29,5 +29,18 @@ How to solve the problem with Actors:
 
 ````````ruby
 
+actor MyActorDataManager {
+    static let instance = MyActorDataManager ()
+    
+    private init() { }
+    
+    var data: [String] = []
+    
+    func getRandomData() -> String? {
+        self.data.append(UUID().uuidString)
+        print(Thread.current)
+        return self.data.randomElement()
+    }
+}
 
 ````````
