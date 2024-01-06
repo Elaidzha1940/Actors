@@ -9,8 +9,25 @@
 
 import SwiftUI
 
-class myDataManager {
-    static let instance = myDataManager()
+class MyDataManager {
+    static let instance = MyDataManager()
+    
+    private init() { }
+    
+    var data: [String] = []
+    private let lock = DispatchQueue(label: "com.MyApp.MyDataManager")
+    
+    func getRandomData(completionHandler: @escaping (_ title: String?) -> ()) {
+        lock.async {
+            self.data.append(UUID().uuidString)
+            print(Thread.current)
+            completionHandler(self.data.randomElement())
+        }
+    }
+}
+
+actor MyActorDataManager {
+    static let instance = MyActorDataManager ()
     
     private init() { }
     
@@ -19,15 +36,15 @@ class myDataManager {
     func getRandomData() -> String? {
         self.data.append(UUID().uuidString)
         print(Thread.current)
-        return data.randomElement()
+        return self.data.randomElement()
     }
 }
 
 struct HomeView: View {
     @State private var text: String = ""
     let timer = Timer.publish(every: 0.1, tolerance: nil, on: .main, in: .common, options: nil).autoconnect()
-    let manager = myDataManager.instance
-
+    let manager = MyActorDataManager.instance
+    
     var body: some View {
         ZStack {
             Color.gray.opacity(0.7)
@@ -37,9 +54,22 @@ struct HomeView: View {
                 .font(.system(size: 20, weight: .bold, design: .rounded))
         }
         .onReceive(timer, perform: { _ in
-            if let data = manager.getRandomData() {
-                self.text = data
+            Task {
+                if let data = await manager.getRandomData() {
+                    await MainActor.run {
+                        self.text = data
+                    }
+                }
             }
+//            DispatchQueue.global(qos: .background).async {
+//                manager.getRandomData { title in
+//                    if let data = title {
+//                        DispatchQueue.main.async {
+//                            self.text = data
+//                        }
+//                    }
+//                }
+//            }
         })
     }
 }
@@ -47,7 +77,7 @@ struct HomeView: View {
 struct ProfileView: View {
     @State private var text: String = ""
     let timer = Timer.publish(every: 0.1, tolerance: nil, on: .main, in: .common, options: nil).autoconnect()
-    let manager = myDataManager.instance
+    let manager = MyActorDataManager.instance
     
     var body: some View {
         ZStack {
@@ -58,9 +88,22 @@ struct ProfileView: View {
                 .font(.system(size: 20, weight: .bold, design: .rounded))
         }
         .onReceive(timer, perform: { _ in
-            if let data = manager.getRandomData() {
-                self.text = data
+            Task {
+                if let data = await manager.getRandomData() {
+                    await MainActor.run {
+                        self.text = data
+                    }
+                }
             }
+//            DispatchQueue.global(qos: .default).async {
+//                manager.getRandomData { title in
+//                    if let data = title {
+//                        DispatchQueue.main.async {
+//                            self.text = data
+//                        }
+//                    }
+//                }
+//            }
         })
     }
 }
