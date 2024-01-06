@@ -1,9 +1,11 @@
+//  /*
 //
-//  ActorsApp.swift
-//  Actors
+//  Project: Actors
+//  File: ActorsApp.swift
+//  Created by: Elaidzha Shchukin
+//  DAte: 06.01.2024
 //
-//  Created by Elaidzha Shchukin on 06.01.2024.
-//
+//  */
 
 import SwiftUI
 

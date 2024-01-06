@@ -119,7 +119,6 @@ struct ProfileView: View {
     }
 }
 
-
 struct Actors: View {
     var body: some View {
         
